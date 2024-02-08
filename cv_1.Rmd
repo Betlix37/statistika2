@@ -1,13 +1,18 @@
 ---
-title: "cvic_1"
+title: "Cvičení 1"
 author: "Vojtěch Benda"
 date: "2024-02-08"
 output: html_document
 ---
+# Zadaní
+Pro dobu obsluhy zákazníka v samoobsluze určete empirické
+charakteristiky x a s z těchto naměřených hodnot (v sekundách):
+22, 106, 62, 208, 157, 75, 29, 99
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+
 # Definice základní pojmů
 
 Náhodná veličina: denní návštěvnost
@@ -26,12 +31,25 @@ $\mu-3\sigma=230-3*27,5=147,5$
 230-3*27.5
 ```
 
-[1] 312,5
 
 $\mu+3\sigma=230+3*27,5=312,5$
 
 ```{r}
 x=seq(147.5,312.5,length=1000)
 plot(x,dnorm(x,230,27.5),type="l",xlab="Denní návštěvnost",ylab="Hustota pravděpodobnosti",main="Normální rozdělení")
+y=seq(147.5,180,length=1000)
+lines(y,dnorm(y,230,27.5),"h",col="blue")
 ```
 
+$P(X<180) = P(-\infty<X<180) = F(180)-F(-\infty) = F(180)-0 = F(180)$
+
+
+```{r}
+pnorm(180,230,27.5)
+```
+
+# Graf distribuční funkce
+
+```{r}
+plot(x,pnorm(x,230,27.5),type="l",xlab="Denní návštěvnost",ylab="Hodnota distribuční funkce",main="Distribuční funkce")
+```
