@@ -1,0 +1,37 @@
+---
+title: "cvic_1"
+author: "Vojtěch Benda"
+date: "2024-02-08"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# Definice základní pojmů
+
+Náhodná veličina: denní návštěvnost
+
+Tato náhodná veličina má normální rozdělení N($\mu$, $\sigma^2$)
+
+$\mu=230$
+
+$\sigma=27,5$
+
+# Grafické znázornění
+
+$\mu-3\sigma=230-3*27,5=147,5$
+
+```{r}
+230-3*27.5
+```
+
+[1] 312,5
+
+$\mu+3\sigma=230+3*27,5=312,5$
+
+```{r}
+x=seq(147.5,312.5,length=1000)
+plot(x,dnorm(x,230,27.5),type="l",xlab="Denní návštěvnost",ylab="Hustota pravděpodobnosti",main="Normální rozdělení")
+```
+
