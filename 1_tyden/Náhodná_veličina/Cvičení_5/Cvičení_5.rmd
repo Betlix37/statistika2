@@ -1,0 +1,49 @@
+---
+title: "Cvičení 5"
+author: "Vojtěch Benda"
+date: "8.2.2024"
+output: html_document
+---
+
+# Zadaní
+Doba (v minutách), kterou studenti potřebují na vypracování testu má normální rozdělení N(110; 62). Kolik procent studentů dokončení test do dvou hodin? Kolik minut by mělo být na vypracování testu dáno, aby jej dokončilo alespoň 99 % studentů?
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Definice základní pojmů
+
+Náhodná veličina: Doba potřebná na vypracování testu
+
+Tato náhodná veličina má normální rozdělení N($\mu$, $\sigma^2$)
+
+$\mu=110$
+
+$\sigma=6^2$
+
+# Grafické znázornění
+
+$\mu-3\sigma=110-3\cdot6=92$
+
+$\mu+3\sigma=110+3\cdot6=128$
+
+```{r}
+x=seq(92,128,length=1000)
+plot(x,dnorm(x,110,6),"l",col="red",xlab="Doba potřebná na vypracování testu",ylab="Hustota pravděpodobnosti",main="Hustota pravděpodobnosti")
+y=seq(92,128,length=1000)
+lines(y,dnorm(y,230,27.5),"h",col="blue")
+```
+
+$P(X<180) = P(-\infty<X<180) = F(180)-F(-\infty) = F(180)-0 = F(180)$
+
+
+```{r}
+pnorm(180,230,27.5)
+```
+
+# Graf distribuční funkce
+
+```{r}
+plot(x,pnorm(x,230,27.5),type="l",xlab="Denní návštěvnost",ylab="Hodnota distribuční funkce",main="Distribuční funkce")
+```

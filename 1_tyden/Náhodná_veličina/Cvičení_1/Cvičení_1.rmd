@@ -1,13 +1,12 @@
 ---
-title: "Cvičení 1"
+title: "Cvičení 5"
 author: "Vojtěch Benda"
-date: "2024-02-08"
+date: "8.2.2024"
 output: html_document
 ---
+
 # Zadaní
-Pro dobu obsluhy zákazníka v samoobsluze určete empirické
-charakteristiky x a s z těchto naměřených hodnot (v sekundách):
-22, 106, 62, 208, 157, 75, 29, 99
+Počet návštěvníků zábavního parku je náhodnou veličinou, mající normální rozdělení. Vedoucí zábavního parku si zjistil, že denní návštěvnost má průměrnou hodnotu 230 a směrodatnou odchylku 27,5 návštěvníků. Jestliže přijde za den méně než 180 návštěvníků, je zábavní park ztrátový. Kolik procent dnů je ztrátových?
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -25,7 +24,7 @@ $\sigma=27,5$
 
 # Grafické znázornění
 
-$\mu-3\sigma=230-3*27,5=147,5$
+$\mu-3\sigma=230=3\cdot27,5=147,5$
 
 ```{r}
 230-3*27.5
