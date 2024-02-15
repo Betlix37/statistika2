@@ -1,0 +1,81 @@
+---
+title: "Příklad 9"
+author: "Vojtěch Benda"
+date: "15.2.2024"
+output: html_document
+---
+
+# Zadaní
+Byla měřena doba pro opravu určité vady televizoru. Při 50 opravách byly zjištěny tyto časy (v minutách):
+
+44,0 ; 40,2 ; 41,9 ; 43,4 ; 42,8 ; 42,3 ; 43,2 ; 45,0 ; 41,5 ; 42,7 ; 43,9 ; 40,1 ; 43,3 ; 41,1 ; 42,5 ; 42,4 ; 41,4 ; 40,8 ; 42,0 ; 44,7 ; 41,2 ; 41,9 ; 42,4 ; 44,4 ; 40,5 ; 39,7 ; 41,1 ; 41,0 ; 41,9 ; 40,8 ; 43,0 ; 42,8 ; 42,9 ; 42,7 ; 43,3 ; 42,2 ; 39,2 ; 41,5 ; 41,6 ; 42,7 ; 45,0 ; 42,3 ; 43,6 ; 43,2 ; 38,8 ; 43,0 ; 44,2 ; 43,0 ; 40,0 ; 44,4
+
+Za předpokladu, že rozdělení doby opravy je normální, stanovte 95% interval spolehlivosti pro střední hodnotu doby opravy.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Definice základní pojmů
+
+Statistický znak x: doba opravy televizoru
+
+Statistická jednotka: porouchané televizor
+
+Základní soubor: všechny všechny porouchané televizory
+
+Výběrový soubor: 50 televizorů
+
+# Zadaní hodnot
+
+```{r}
+x <- c(44.0, 40.2, 41.9, 43.4, 42.8, 42.3, 43.2, 45.0, 41.5, 42.7, 43.9, 40.1, 43.3, 41.1, 42.5, 42.4, 41.4, 40.8, 42.0, 44.7, 41.2, 41.9, 42.4, 44.4, 40.5, 39.7, 41.1, 41.0, 41.9, 40.8, 43.0, 42.8, 42.9, 42.7, 43.3, 42.2, 39.2, 41.5, 41.6, 42.7, 45.0, 42.3, 43.6, 43.2, 38.8, 43.0, 44.2, 43.0, 40.0, 44.4)
+```
+
+# Výpočet základnich číselných charakteristik
+
+## Výběrový průměr
+
+```{r}
+x_prumer <- mean(x)
+x_prumer
+```
+
+## Výběrový rozptyl
+
+```{r}
+x_rozptyl <- var(x)
+x_rozptyl
+```
+
+## Výběrová směrodatná odchylka
+
+```{r}
+x_smerodatna_odchylka <- sd(x)
+x_smerodatna_odchylka
+```
+
+## Medián
+
+```{r}
+x_median <- median(x)
+x_median
+```
+
+## Kontrola přítomnosti extrémních hodnot krabičkovým grafem
+
+```{r}
+boxplot(x)
+```
+
+Žádna extrémní hodnota není přítomna.
+
+## Emperická distribuční funkce
+
+```{r}
+plot(ecdf(x))
+curve(pnorm(x, x_prumer, x_smerodatna_odchylka), col = "red", add = TRUE)
+curve(pexp(x, 1 / x_prumer), col = "blue", add = TRUE)
+```
+
+Na základě lze předpokládat, že chování sledoného znaku lze popsat normálním rozdělením (červená křivka).
