@@ -1,0 +1,86 @@
+---
+title: "Příklad 4"
+author: ""
+date: "2024-02-08"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Definice náhodné veličiny
+
+Náhodná veličina X: doba obsluhy (min).
+
+Náhodná veličina X má exponenciální rozdělení E($A$,$\delta$).
+
+$A=1$ (minimální doba obsluhy).
+
+$\delta=?$
+
+Parametr $\delta$ určíme na základě informace, že do 4 minut bylo obslouženo 26 % zákazníků.
+
+$P(X<4)=0{,}26$,
+
+$P(-\infty<X<4)=0{,}26$,
+
+$F(4)-F(-\infty)=0{,}26$,
+
+$F(4)=0{,}26$,
+
+$1-e^{-\frac{4-1}{\delta}}=0{,}26$,
+
+$e^{-\frac{3}{\delta}}=0{,}74$,
+
+$ln(e^{-\frac{3}{\delta}})=ln(0{,}74)$,
+
+$-\frac{3}{\delta}ln(e)=ln(0{,}74)$,
+
+$-\frac{3}{\delta}=ln(0{,}74)$,
+
+$\delta=\frac{-3}{ln(0{,}74)}$.
+
+## 
+```{r}
+-3/log(0.74)
+```
+
+$\delta=9,96$.
+
+
+# Střední doba obsluhy
+
+$E(X)=A+\delta=1+9{,}96=10{,}96$ (min).
+
+
+
+# Kolik procent zákazníků je obsluhováno déle než 8 minut?
+
+$P(X>8)=?$
+
+$P(X>8)=P(8<X<\infty)=F(\infty)-F(8)=1-F(8)=0{,}48$.
+
+
+```{r}
+1-pexp(8,1/10.96)
+```
+
+Asi 48 % zákazníků je obsluhováno déle než 8 minut.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

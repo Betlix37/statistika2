@@ -1,0 +1,86 @@
+---
+title: "Příklad 5"
+author: ''
+date: "2024-02-08"
+output:
+  pdf_document: default
+  html_document: default
+  word_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Definice základních pojmů
+
+Náhodná veličina: čas vypracování testu (min)
+
+Tato náhodná veličina má normální rozdělení N($\mu$,$\sigma$).
+
+$\mu=110$,
+
+$\sigma=6$.
+
+# Grafické znázornění
+
+$\mu-3\sigma=110-3\cdot 6=92$,
+
+```{r}
+110-3*6
+```
+
+$\mu+3\sigma=110+3\cdot 6=128$.
+
+```{r}
+110+3*6
+```
+
+```{r out.width='75%'}
+x=seq(92,128,length=100)
+plot(x,dnorm(x,110,6),"l")
+```
+
+99,73 % studentů dokončí test v intervalu 92 až 128 minut.
+
+
+$P(X<120)=?$
+
+```{r out.width='70%'}
+plot(x,dnorm(x,110,6),"l")
+y=seq(92,120,length=1000)
+lines(y,dnorm(y,110,6),"h",col="blue")
+```
+
+$P(X<120)=P(-\infty<X<120)=F(120)-F(-\infty)=F(120)-0=F(120)$.
+
+```{r}
+pnorm(120,110,6)
+```
+$P(X<120)=0{,}952$.
+
+Asi 95,2 % studentů dokončí test do dvou hodin.
+
+
+$P(X<t)=0{,}99$,
+
+$P(-\infty<X<t)=0{,}99$,
+
+$F(t)-F(-\infty)=0{,}99$,
+
+$F(t)=0{,}99$.
+
+$t=t_{0{,}99}=124$ (min)  (99% kvantil).
+
+```{r}
+qnorm(0.99,110,6)
+```
+
+Aby test dokončilo alespoň 99 % studentů, mělo by na něj být dáno alespoň 124 minut.
+
+
+
+
+
+
+

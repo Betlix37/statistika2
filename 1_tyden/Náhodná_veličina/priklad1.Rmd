@@ -1,0 +1,63 @@
+---
+title: "Příklad 1"
+author: ''
+date: "2024-02-08"
+output:
+  pdf_document: default
+  html_document: default
+  word_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Definice náhodné veličiny
+
+Náhodná veličina $X$: počet návštěvníků.
+
+Náhodná veličina $X$ má normální rozdělení N($\mu$,$\sigma^2$).
+
+$\mu=230$,
+
+$\sigma=27,5$.
+
+
+# Grafické znázornění
+
+$\mu-3\sigma=230-3\cdot 27,5=147,5$.
+
+```{r}
+230-3*27.5
+```
+
+$\mu+3\sigma=230+3\cdot 27,5=312,5$.
+
+```{r}
+230+3*27.5
+```
+```{r out.width='70%'}
+x=seq(147.5,312.5,length=100)
+plot(x,dnorm(x,230,27.5),"l")
+```
+
+$P(X<180)=?$
+
+```{r out.width='70%'}
+plot(x,dnorm(x,230,27.5),"l")
+y=seq(147.5,180,length=1000)
+lines(y,dnorm(y,230,27.5),"h",col="blue")
+```
+
+$P(X<180)=P(-\infty<X<180)=F(180)-F(-\infty)=F(180)=0,035.$
+
+```{r}
+round(pnorm(180,230,27.5),3)
+```
+Asi 3,5 % dnů je ztrátových.
+
+# Graf disribuční funkce
+
+```{r out.width='60%'}
+plot(x,pnorm(x,230,27.5),"l")
+```

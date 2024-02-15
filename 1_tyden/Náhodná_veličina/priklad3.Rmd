@@ -1,0 +1,60 @@
+---
+title: "Příklad 3"
+author: ''
+date: "2024-02-08"
+output:
+  pdf_document: default
+  html_document: default
+  word_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# Definice náhodné veličiny
+
+Náhodná veličina X: doba života baterie (hodinách).
+
+Náhodná veličina X má normální rozdělení N($\mu$,$\sigma$).
+
+$\mu=300$ (hodin),
+
+$\sigma=35$ (hodin).
+
+# Grafické znázornění
+
+$\mu-3\sigma=300-3\cdot 35=195$.
+
+```{r}
+300-3*35
+```
+$\mu+3\sigma=300+3\cdot 35=405$.
+
+```{r}
+300+3*35
+```
+```{r out.width='75%'}
+x=seq(195,405,length=100)
+plot(x,dnorm(x,300,35),"l")
+```
+
+99,73 % baterií má životnost od 195 do 405 hodin.
+
+
+Kolik procent baterií má životnost větší než 320 hodin?
+
+$P(X>320)=?$
+
+```{r out.width='70%'}
+y=seq(320,405,length=1000)
+plot(x,dnorm(x,300,35),"l")
+lines(y,dnorm(y,300,35),"h",col="blue")
+```
+
+$P(X>320)=P(320<X<\infty)=F(\infty)-F(320)=1-F(320)=0,284$.
+
+```{r}
+round(1-pnorm(320,300,35),3)
+```
+Asi 28,4 % baterií má životnost větší než 320 hodin.
+

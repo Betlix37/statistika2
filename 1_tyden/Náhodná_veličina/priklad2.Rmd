@@ -1,0 +1,67 @@
+---
+title: "Příklad 2"
+author: ''
+date: "2024-02-08"
+output:
+  pdf_document: default
+  html_document: default
+  word_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Definice náhodné veličiny
+
+Náhodná veličina X: obsah láhve (l).
+
+Náhodná veličina má normální rozdělení N($\mu$,$\sigma$).
+
+$\mu=0,7$ (l),
+
+$\sigma=0,02$ (l).
+
+# Grafické znázornění
+
+$\mu-3\sigma=0,7-3\cdot 0,02=0,64$.
+
+```{r}
+0.7-3*0.02
+```
+$\mu+3\sigma=0,7+3\cdot 0,02=0,76$.
+
+```{r}
+0.7+3*0.02
+```
+```{r out.width='75%'}
+x=seq(0.64,0.76,length=100)
+plot(x,dnorm(x,0.7,0.02),"l")
+```
+
+99,73 % lahví v dodávce má obsah od 0,64 do 0,76 litru.
+
+$P(X<0,68)=?$
+
+```{r out.width='70%'}
+plot(x,dnorm(x,0.7,0.02),"l")
+y=seq(0.64,0.68,length=1000)
+lines(y,dnorm(y,0.7,0.02),"h",col="blue")
+```
+
+$P(X<0,68)=P(-\infty<X<0,68)=F(0,68)-F(-\infty)=F(0,68)=0,159$.
+
+```{r}
+round(pnorm(0.68,0.7,0.02),3)
+```
+
+Asi 15,9 % lahví v dodávce má obsah menší než 0,68 litru.
+
+
+```{r}
+2000*0.159
+```
+
+V dodávce 2000 lahví má asi 318 obsah menší než 0,68 litru.
+
+

@@ -1,0 +1,79 @@
+---
+title: "Příklad 1"
+author: "Vojtěch Benda"
+date: "15.2.2024"
+output: html_document
+---
+
+# Zadaní
+Pro dobu obsluhy zákazníka v samoobsluze určete empirické charakteristiky x a s těchto naměřených hodnot (v sekundách):
+
+22 ; 106 ; 62 ; 208 ; 157 ; 75 ; 29 ; 99
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Definice základní pojmů
+
+Statistický znak x: doba obsluhy zákazníka v samoobsluze
+
+Statistická jednotka: zákazník v samoobsluze
+
+Základní soubor: všichni zákazníci v samoobsluze
+
+Výběrový soubor: 10 zákazníků v samoobsluze
+
+# Zadaní hodnot
+
+```{r}
+x <- c(22, 106, 62, 208, 157, 75, 29, 99)
+```
+
+# Výpočet základnich číselných charakteristik
+
+## Výběrový průměr
+
+```{r}
+x_prumer <- mean(x)
+x_prumer
+```
+
+## Výběrový rozptyl
+
+```{r}
+x_rozptyl <- var(x)
+x_rozptyl
+```
+
+## Výběrová směrodatná odchylka
+
+```{r}
+x_smerodatna_odchylka <- sd(x)
+x_smerodatna_odchylka
+```
+
+## Medián
+
+```{r}
+x_median <- median(x)
+x_median
+```
+
+## Kontrola přítomnosti extrémních hodnot krabičkovým grafem
+
+```{r}
+boxplot(x)
+```
+
+Žádna extrémní hodnota není přítomna.
+
+## Emperická distribuční funkce
+
+```{r}
+plot(ecdf(x))
+curve(pnorm(x, x_prumer, x_smerodatna_odchylka), col = "red", add = TRUE)
+curve(pexp(x, 1 / x_prumer), col = "blue", add = TRUE)
+```
+
+Na základě lze předpokládat, že chování sledoného znaku lze popsat normálním rozdělením (červená křivka).
