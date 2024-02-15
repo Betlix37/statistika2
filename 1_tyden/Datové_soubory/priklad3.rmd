@@ -29,9 +29,8 @@ Výběrový soubor: 50 televizorů
 # Zadaní hodnot
 
 ```{r}
-data_lines <- readLines("prikladData3.txt")
-data <- as.numeric(data_lines)
-x <- data
+data_lines <- read.table("prikladData3.txt", quote = "\"", comment.char = "")
+x <- as.matrix(data_lines)
 ```
 
 # Roztřídění datového souboru
