@@ -29,53 +29,44 @@ Výběrový soubor: 50 televizorů
 # Zadaní hodnot
 
 ```{r}
-x <- c(44.0, 40.2, 41.9, 43.4, 42.8, 42.3, 43.2, 45.0, 41.5, 42.7, 43.9, 40.1, 43.3, 41.1, 42.5, 42.4, 41.4, 40.8, 42.0, 44.7, 41.2, 41.9, 42.4, 44.4, 40.5, 39.7, 41.1, 41.0, 41.9, 40.8, 43.0, 42.8, 42.9, 42.7, 43.3, 42.2, 39.2, 41.5, 41.6, 42.7, 45.0, 42.3, 43.6, 43.2, 38.8, 43.0, 44.2, 43.0, 40.0, 44.4)
+data_lines <- readLines("prikladData3.txt")
+data <- as.numeric(data_lines)
+x <- data
 ```
 
-# Výpočet základnich číselných charakteristik
-
-## Výběrový průměr
+# Roztřídění datového souboru
 
 ```{r}
-x_prumer <- mean(x)
-x_prumer
+min(x)
+max(x)
 ```
 
-## Výběrový rozptyl
+Naměřené hodnoty jsou v intervalu $\langle 38.8, 45.0 \rangle$.
+
+Rozpětí je $R=45,0 - 38,8 = 6,2$.
+
+Interval rozátáhneme na od 38 do 46. Rozpětí $R=46,0 - 38,0 = 8$.
+
+Interval rozdělíme na 8 intervalů délky 1.
+$\langle 38, 39 \rangle, \langle 39, 40 \rangle, \langle 40, 41 \rangle, \langle 41, 42 \rangle, \langle 42, 43 \rangle, \langle 43, 44 \rangle, \langle 44, 45 \rangle, \langle 45, 46 \rangle$.
 
 ```{r}
-x_rozptyl <- var(x)
-x_rozptyl
+y <- hist(x, br = c(38, 39, 40, 41, 42, 43, 44, 45, 46), right = FALSE)
 ```
-
-## Výběrová směrodatná odchylka
 
 ```{r}
-x_smerodatna_odchylka <- sd(x)
-x_smerodatna_odchylka
+y$mids
 ```
-
-## Medián
+    
+```{r}
+y$counts
+```
 
 ```{r}
-x_median <- median(x)
-x_median
+y$counts / 50
 ```
-
-## Kontrola přítomnosti extrémních hodnot krabičkovým grafem
 
 ```{r}
-boxplot(x)
+hist(x, br = c(38, 39, 40, 41, 42, 43, 44, 45, 46),freq=FALSE, right = FALSE)
+curve(dnorm(x, 42.27, 1.48), col = "red" , add = TRUE)
 ```
-
-Žádna extrémní hodnota není přítomna.
-
-## Emperická distribuční funkce
-
-```{r}
-plot(ecdf(x))
-curve(pnorm(x, x_prumer, x_smerodatna_odchylka), col = "red", add = TRUE)
-curve(pexp(x, 1 / x_prumer), col = "blue", add = TRUE)
-```
-
-Na základě lze předpokládat, že chování sledoného znaku lze popsat normálním rozdělením (červená křivka).
