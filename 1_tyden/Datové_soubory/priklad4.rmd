@@ -1,0 +1,76 @@
+---
+title: "Příklad 9"
+author: "Vojtěch Benda"
+date: "15.2.2024"
+output: html_document
+---
+
+# Zadaní
+Určete empirické charakteristiky počtu nehod za den, registrovaných na policejní stanici během 53 dnů:
+
+1 ; 0 ; 2 ; 3 ; 1 ; 2 ; 0 ; 1 ; 4 ; 1 ; 2 ; 0 ; 1 ; 1 ; 3 ; 0 ; 1 ; 2 ; 1 ; 1 ; 1 ; 2 ; 0 ; 5 ; 0 ; 1 ; 1 ; 2 ; 1 ; 2 ; 2 ; 0 ; 3 ; 1 ; 0 ; 3 ; 5 ; 2 ; 6 ; 1 ; 0 ; 2 ; 3 ; 0 ; 2 ; 1 ; 0 ; 1 ; 2 ; 3 ; 4 ; 3 ; 1
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Definice základní pojmů
+
+Statistický znak x: počet nehod za den
+
+Statistická jednotka: den
+
+Základní soubor: všechny dny
+
+Výběrový soubor: 53 dnů
+
+# Zadaní hodnot
+
+```{r}
+data_lines <- read.table("prikladData4.txt", quote = "\"", comment.char = "")
+x <- as.matrix(data_lines)
+```
+
+## Výběrová směrodatná odchylka
+```{r}
+sd(x)
+```
+## Medián
+```{r}
+median(x)
+```
+
+
+# Roztřídění datového souboru
+
+```{r}
+min(x)
+max(x)
+```
+
+Naměřené hodnoty jsou v intervalu $\langle 0, 6 \rangle$.
+
+Rozpětí je $R=6 - 0 = 6$.
+
+## Četnosti
+```{r}
+cetnost <- table(x)
+cetnost
+```
+
+```{r}
+cetnosti_df <- as.data.frame(cetnost)
+cetnosti_df
+```
+
+
+Na základě tyčového diagramu lze předpokládat, že chování sledovaného znaku by mohlo být popsáno Poissonovým rozdělením.
+
+Modus - nejčastěji vyskytující se hodnota: 1
+
+## Vykreslení grafu
+```{r}
+plot(as.numeric(cetnosti_df$x), as.numeric(cetnosti_df$Freq)/53, type = "h", xlab = "Počet nehod za den", ylab = "Četnost", main = "Počet nehod za den", col = "blue", lwd = 8)
+lines(as.numeric(cetnosti_df$x), dpois(as.numeric(cetnosti_df$x), lambda = mean(x)), col = "red", lwd = 2)
+```
