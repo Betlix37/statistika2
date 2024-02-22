@@ -76,3 +76,18 @@ curve(pexp(x, 1 / x_prumer), col = "blue", add = TRUE)
 ```
 
 Na základě lze předpokládat, že chování sledoného znaku lze popsat normálním rozdělením (červená křivka).
+
+# Testování hypotéz
+## t - test
+    
+$H_0: \mu\geq\mu_0$
+ - změna technologie obrábění nevedla ke snížení procentuálního odpadu
+
+$H_1: \mu<\mu_0$
+ - změna technologie obrábění vedla ke snížení procentuálního odpadu
+
+```{r}
+t.test(x, alternative = "less", mu = 4)
+```
+
+Zvolíme hladinu významnosti $\alpha = 0.05$. Vzhledem k tomu, že p-hodnota je menší než $\alpha$, zamítáme nulovou hypotézu a přijímáme alternativní hypotézu. Tedy, změna technologie obrábění vedla ke snížení procentuálního odpadu.

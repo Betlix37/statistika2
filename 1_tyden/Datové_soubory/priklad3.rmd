@@ -66,6 +66,45 @@ y$counts / 50
 ```
 
 ```{r}
-hist(x, br = c(38, 39, 40, 41, 42, 43, 44, 45, 46),freq=FALSE, right = FALSE)
-curve(dnorm(x, 42.27, 1.48), col = "red" , add = TRUE)
+hist(x, br = c(38, 39, 40, 41, 42, 43, 44, 45, 46), freq = FALSE, right = FALSE)
+curve(dnorm(x, 42.27, 1.48), col = "red", add = TRUE)
 ```
+
+## Vypočet 95% intervalu spolehlivosti pro střední hodnotu doby opravy
+
+
+$\mu\in\langle
+42{,}27 - t_{1- \frac{\alpha}{2}}(n-1)\frac{s}{\sqrt{n}};
+42{,}27 + t_{1- \frac{\alpha}{2}}(n-1)\frac{s}{\sqrt{n}} \rangle$
+
+Určimě $\alpha$
+
+$\alpha = 1 - 0,95 = 0,05$
+
+Hodnota kvantilu studentova (t) rozdělení:
+
+```{r}
+qt(0.975, 49)
+```
+
+$t_{1- \frac{\alpha}{2}}(n-1) = t_{0,975}(49) = 2,0096$
+
+Levý krajní bod intervalu:
+
+```{r}
+42.27 - 2.0096 * 1.48 / sqrt(50)
+```
+
+Pravý krajní bod intervalu:
+
+```{r}
+42.27 + 2.0096 * 1.48 / sqrt(50)
+```
+
+
+95% interval spolehlivosti pro střední hodnotu doby opravy je 
+$\langle 41,85; 42,69 \rangle$.
+
+Interpretace: 
+
+Se spolehlivosti 95% lze očekávat, že střední hodnota doby opravy televizoru se nachází v intervalu $\langle 41,85; 42,69 \rangle$.
