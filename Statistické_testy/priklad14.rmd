@@ -1,0 +1,153 @@
+---
+title: "Příklad 14"
+author: "Vojtěch Benda"
+date: "7. 3. 2024"
+output: html_document
+---
+
+# Zadaní
+
+U dvou sportovních škol, A a B, byla prověřována fyzická zdatnost absolventů. Z každé školy bylo náhodným způsobem vybráno po 12 studentech, kteří při proběhnutí kontrolní překážkové dráhy dosáhli těchto časů (v sekundách):
+A: 60 154 122 90 105 68 160 76 73 88 92 104
+B: 64 59 70 60 108 97 84 68 135 125 70 142
+Za předpokladu, že tyto doby mají normální rozdělení, posuďte rozdíly mezi výběrovými rozptyly a průměry dosažených časů.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Definice základní pojmů
+
+Statistický znak x: doba proběhnutí překážkové dráhy (s)
+
+Statistická jednotka: student školy A
+                      student školy B
+
+Základní soubor: všichni studenti školy A
+                všichni studenti školy B
+
+Výběrový soubor: 12 náhodně vybraných studentů školy A
+                 12 náhodně vybraných studentů školy B
+
+# Zadaní hodnot
+
+```{r}
+x_A <- c(60, 154, 122, 90, 105, 68, 160, 76, 73, 88, 92, 104)
+x_B <- c(64, 59, 70, 60, 108, 97, 84, 68, 135, 125, 70, 142)
+```
+
+# Výpočet základnich číselných charakteristik A
+
+
+```{r}
+x_A_prumer <- mean(x_A)
+x_A_prumer
+```
+
+```{r}
+x_A_rozptyl <- var(x_A)
+x_A_rozptyl
+```
+
+```{r}
+x_A_smerodatna_odchylka <- sd(x_A)
+x_A_smerodatna_odchylka
+```
+
+```{r}
+x_A_median <- median(x_A)
+x_A_median
+```
+
+# Výpočet základnich číselných charakteristik B
+
+```{r}
+x_B_prumer <- mean(x_B)
+x_B_prumer
+```
+
+```{r}
+x_B_rozptyl <- var(x_B)
+x_B_rozptyl
+```
+
+```{r}
+x_B_smerodatna_odchylka <- sd(x_B)
+x_B_smerodatna_odchylka
+```
+
+```{r}
+x_B_median <- median(x_B)
+x_B_median
+```
+
+Průměrná doba proběhnutí překážkové dráhy studenty školy A je 99.33333 s, průměrná doba proběhnutí překážkové dráhy studenty školy B je 90.16667 s.
+
+Rozptyl doby proběhnutí překážkové dráhy studenty školy A je 1024.788 s, rozptyl doby proběhnutí překážkové dráhy studenty školy B je 925.7879 s.
+
+Směrodatná odchylka doby proběhnutí překážkové dráhy studenty školy A je 32.01231 s, směrodatná odchylka doby proběhnutí překážkové dráhy studenty školy B je 30.42676 s.
+
+Medián doby proběhnutí překážkové dráhy studenty školy A je 91 s, medián doby proběhnutí překážkové dráhy studenty školy B je 77 s.
+
+
+# Ověření podmínky normality (sahpira-wilkův test)
+
+## Výrobce A
+    
+$H_0:$ Sledovaný znak X má normální rozdělení
+$H_1:$ Sledovaný znak X nemá normální rozdělení
+
+```{r}
+shapiro.test(x_A)
+```
+
+W je menší než 1, tedy existuje odchylka od normálního rozdělení. Významnost této odchylky posoudíme porovnáním p-hodnodty s vlastní hladinou významnosti.
+
+Volíme $\alpha = 0,05$. P-hodnota je větší než $\alpha$ ($0.1821 > 0.05 $), prijímáme $H_0$, což znamená, že sledovaný znak X má normální rozdělení.
+
+
+## Výrobce B
+
+$H_0:$ Sledovaný znak X má normální rozdělení
+$H_1:$ Sledovaný znak X nemá normální rozdělení
+
+```{r}
+shapiro.test(x_B)
+```
+W je menší než 1, tedy existuje odchylka od normálního rozdělení. Významnost této odchylky posoudíme porovnáním p-hodnodty s vlastní hladinou významnosti.
+
+Volíme $\alpha = 0,05$. P-hodnota je větší než $\alpha$ ($0.05981 > 0.05 $), prijímáme $H_0$, což znamená, že sledovaný znak X má normální rozdělení.
+
+## Ověření 
+
+```{r}
+plot(x_A, x_B)
+```
+    
+Body jsou rozmístěny náhodně v souřadné  soustavě. Výběry jsou nezávislé.
+
+# Porování rozptylů
+
+$H_0: \sigma_A^2 = \sigma_B^2$ (rozptyly jsou stejné)
+
+$H_1: \sigma_A^2 \neq \sigma_B^2$ (rozptyly nejsou stejné)
+
+```{r}
+var.test(x_A, x_B, alternative = "two.sided")
+```
+
+Zvolíme $\alpha = 0.05$. P-hodnota je větší než $\alpha$ ($0.8692 > 0.05 $), prijímáme $H_0$, což znamená, že rozptyly jsou stejné.
+
+# Porovnání doby běhů (dvouvýběrový t-test)
+
+Budeme chtít zjistit, zda lze řict že doba běhu studentů školy B je menší než doba běhu studentů školy A.
+
+$H_0: \mu_A \leq \mu_B$ (doba běhu studentů školy B není menší než doba běhu studentů školy A)
+
+$H_1: \mu_A > \mu_B$ (doba běhu studentů školy A je větší než doba běhu studentů školy B)
+
+```{r}
+t.test(x_A, x_B, alternative = "greater")
+```
+
+Zvolíme $\alpha = 0.05$. P-hodnota je větší než $\alpha$ ($0.2399 > 0.05 $), prijímáme $H_0$, což znamená, že doba běhu studentů školy B není menší než doba běhu studentů školy A.

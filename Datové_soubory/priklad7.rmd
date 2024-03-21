@@ -6,9 +6,9 @@ output: html_document
 ---
 
 # Zadaní
-Výrobce elektrických baterií udává, že baterie má průměrnou životnost 10 hodin. Testujte rozdíl mezi x a průměrnou hodnotou životnosti uváděnou výrobcem, jestliže na 11 bateriích byly zjištěny tyto hodnoty životnosti (v hodinách):
+Autobusová linka měla na určité trase průměrnou dobu jízdy 12 minut. Na trase byly provedeny změny. Posuďte, zda tyto změny změnily dobu jízdy, jestliže při devíti jízdách bylo dosaženo těchto časů (v minutách):
 
-9,5 ; 10,5 ; 8,9 ; 9,2 ; 10,0 ; 8,5 ; 9,2 ; 8,8 ; 10,0 ; 9,5 ; 9,2
+12,5 ; 13,5 ; 11,9 ; 12,2 ; 13,0 ; 14,3 ; 12,2 ; 11,8 ; 14,0
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -16,18 +16,18 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Definice základní pojmů
 
-Statistický znak x: životnost baterie (h) (kvantitativní spojitý znak)
+Statistický znak x: doba jízdy
 
-Statistická jednotka: baterie
+Statistická jednotka: jízda 
 
-Základní soubor: všechny baterie
+Základní soubor: všechny jízdy
 
-Výběrový soubor: 11 baterií
+Výběrový soubor: devět jízd
 
 # Zadaní hodnot
 
 ```{r}
-x <- c(9.5, 10.5, 8.9, 9.2, 10.0, 8.5, 9.2, 8.8, 10.0, 9.5, 9.2)
+x <- c(12.5, 13.5, 11.9, 12.2, 13.0, 14.3, 12.2, 11.8, 14.0)
 ```
 
 # Výpočet základnich číselných charakteristik
@@ -77,3 +77,21 @@ curve(pexp(x, 1 / x_prumer), col = "blue", add = TRUE)
 ```
 
 Na základě lze předpokládat, že chování sledoného znaku lze popsat normálním rozdělením (červená křivka).
+
+# t-test
+Budeme chtít otěřit předpoklad, že změna trasy vedka k prodloužení změny jízdy. Tento předpoklad bude testován na hladině významnosti 5 %.
+
+## Formulace hypotézy
+
+$H0: \mu \leq 12$
+
+$H1: \mu > 12$
+
+## Výpočet t-statistiky
+
+```{r}
+t.test(x, mu = 12, alternative = "greater")
+```
+
+## Volba hladiny významnosti
+P hodnota je menší než 0.05, tudíž zamítáme nulovou hypotézu. Změna trasy vedla k prodloužení doby jízdy.

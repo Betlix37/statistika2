@@ -1,0 +1,96 @@
+---
+title: "Příklad 2"
+author: "Vojtěch Benda"
+date: "21.3.2024"
+output: html_document
+---
+
+# Zadaní
+Je potřeba porovnat úspěšnost absolventů tří typů středních škol
+(gymnázií, středních odborných škol - SOS a středních odborných učilišť zakončených maturitní zkouškou - SOU)
+u přijímacího testu studijních předpokladů na fakultě ekonomického zaměření. Dosažené bodové výsledky náhodně vybraných
+jednadvaceti uchazečů jsou uvedeny v tabulce.
+
+|   Typ školy      |  Dosažené body      |
+|:-----------------|----:|---:|----:|---:|---:|----:|---:|----:|---:|
+|Gymnázium         |45| 55| 57| 60| 61| 63| 55| 60| 48|
+|SOŠ         |48| 55| 61 |55| 63| 58 |52|
+|SOU       |53 |41| 50 |54| 52|
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Definice základní pojmů
+
+Statistický znak x: bodové hodnocení testu (kvantitativní znak)\
+                A: typ střední školy (kvalitativní znak, faktor)
+
+Statistická jednotka: student G, student SOS, student SOU
+
+Základní soubor: všichni studenti G, SOS, SOU
+
+Výběrový soubor: 9 studentů G, 7 studentů SOS, 5 studentů SOU
+
+
+# Zadaní hodnot
+
+```{r}
+x <- c(45, 55, 57, 60, 61, 63, 55, 60, 48, 48, 55, 61, 55, 63, 58, 52, 53, 41, 50, 54, 52)
+faktor <- c(rep("G", 9), rep("SOS", 7), rep("SOU", 5))
+```
+
+## Vstupní data
+```{r}
+vstupdni_data <- data.frame(x, faktor)
+vstupdni_data
+```
+
+
+## Ověření podmínky normality (Shapiro-Wilkův test)
+
+### G
+
+$H_0:$ Sledovaný znak X má normální rozdělením
+
+$H_1:$ Sledovaný znka nemá normální rozdělení
+
+```{r}
+shapiro.test(x[1:9])
+```
+
+Volíme $\alpha = 0,05$ a poronáme ji s p-hodnotou
+
+P-hodnota je 0,2595 je vetší než $\alpha$ $0,25>0,05$,
+ponecháme tedy $H_0$ a sledovaný znak má normální rozdělení
+
+### SOS
+
+$H_0:$ Sledovaný znak X má normální rozdělením
+
+$H_1:$ Sledovaný znka nemá normální rozdělení
+
+```{r}
+shapiro.test(x[10:16])
+```
+
+Volíme $\alpha = 0,05$ a poronáme ji s p-hodnotou
+
+P-hodnota je 0,9387 je vetší než $\alpha$ $0,9387>0,05$,
+ponecháme tedy $H_0$ a sledovaný znak má normální rozdělení
+
+### SOU
+
+$H_0:$ Sledovaný znak X má normální rozdělením
+
+$H_1:$ Sledovaný znka nemá normální rozdělení
+
+```{r}
+shapiro.test(x[17:21])
+```
+
+Volíme $\alpha = 0,05$ a poronáme ji s p-hodnotou
+
+P-hodnota je 0,07687 je vetší než $\alpha$ $0,07687>0,05$,
+ponecháme tedy $H_0$ a sledovaný znak má normální rozdělení

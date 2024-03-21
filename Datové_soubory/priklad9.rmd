@@ -1,0 +1,96 @@
+---
+title: "Příklad 9"
+author: "Vojtěch Benda"
+date: "15.2.2024"
+output: html_document
+---
+
+# Zadaní
+Výrobce elektrických baterií udává, že baterie má průměrnou životnost 10 hodin. Testujte rozdíl mezi x a průměrnou hodnotou životnosti uváděnou výrobcem, jestliže na 11 bateriích byly zjištěny tyto hodnoty životnosti (v hodinách):
+
+9,5 ; 10,5 ; 8,9 ; 9,2 ; 10,0 ; 8,5 ; 9,2 ; 8,8 ; 10,0 ; 9,5 ; 9,2
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Definice základní pojmů
+
+Statistický znak x: životnost baterie (h) (kvantitativní spojitý znak)
+
+Statistická jednotka: baterie
+
+Základní soubor: všechny baterie
+
+Výběrový soubor: 11 baterií
+
+# Zadaní hodnot
+
+```{r}
+x <- c(9.5, 10.5, 8.9, 9.2, 10.0, 8.5, 9.2, 8.8, 10.0, 9.5, 9.2)
+```
+
+# Výpočet základnich číselných charakteristik
+
+## Výběrový průměr
+
+```{r}
+x_prumer <- mean(x)
+x_prumer
+```
+
+## Výběrový rozptyl
+
+```{r}
+x_rozptyl <- var(x)
+x_rozptyl
+```
+
+## Výběrová směrodatná odchylka
+
+```{r}
+x_smerodatna_odchylka <- sd(x)
+x_smerodatna_odchylka
+```
+
+## Medián
+
+```{r}
+x_median <- median(x)
+x_median
+```
+
+## Kontrola přítomnosti extrémních hodnot krabičkovým grafem
+
+```{r}
+boxplot(x)
+```
+
+Žádna extrémní hodnota není přítomna.
+
+## Emperická distribuční funkce
+
+```{r}
+plot(ecdf(x))
+curve(pnorm(x, x_prumer, x_smerodatna_odchylka), col = "red", add = TRUE)
+curve(pexp(x, 1 / x_prumer), col = "blue", add = TRUE)
+```
+
+Na základě lze předpokládat, že chování sledoného znaku lze popsat normálním rozdělením (červená křivka).
+
+# Testování hypotéz
+
+$H0: \mu \geq 10$
+
+$H1: \mu < 10$
+
+## Výpočet testové statistiky
+
+```{r}
+t.test(x, mu = 10, alternative = "less")
+```
+
+## Závěr
+
+Na hladině významnosti 0,05 nelze hypotézu $H0$ zamítnout. 
+Tedy na základě zjištěných hodnot nelze tvrdit, že průměrná životnost baterie je 10 hodin.

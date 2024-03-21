@@ -1,0 +1,49 @@
+---
+title: "Příklad 9"
+author: "Vojtěch Benda"
+date: "15.2.2024"
+output: html_document
+---
+
+# Zadaní
+V předvolebním průzkumu se výzkumná agentura dotázala 1207 respondentů, zda budou volit stranu S. Počet kladných odpovědí byl 145. Určete prognózu procenta počtu voličů této strany a 95% interval spolehlivosti tohoto počtu. Ve volbách pak strana S získala 13,4 % hlasů. Testujte rozdíl mezi prognózou a skutečným výsledkem voleb.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Definice základní pojmů
+
+Statistický znak x: Budete volit starnu S? (Ano, Ne)
+
+Statistická jednotka: volič
+
+Základní soubor:  všichni voliči
+
+Výběrový soubor: 1207 voličů
+
+Sledovaný znak je kvalitativní, protože se jedná o odpovědi Ano/Ne.
+
+Znak převedeme na diskretní kvantitativní znak, kde Ano = 1 a Ne = 0.
+
+Bodovým odhadem parametru p je výběrový průměr.
+
+$$p\approx\bar{x} = \frac{145}{1207} = 0,12$$
+
+## Formulace hypotézy
+
+$H0: p = p_0$
+
+$H1: p \neq p_0$
+
+## Výpočet intervalu spolehlivosti
+```{r}
+prop.test(145, 1207, alternative = "two.sided", conf.level = 0.134)
+```
+
+## Volba hladiny významnosti
+Volíme hladinu významnosti $\alpha = 0,05$.
+
+## Závěr testu
+
+Vzhledem k tomu, že $p = 0,12$ a $p_0 = 0,134$, můžeme na hladině významnosti $\alpha = 0,05$ zamítnout nulovou hypotézu a přijmout alternativní hypotézu. Průzkum odpovídá skutečnému výsledku voleb.

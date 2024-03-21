@@ -1,0 +1,179 @@
+---
+title: "Příklad 15"
+author: "Vojtěch Benda"
+date: "7. 3. 2024"
+output: html_document
+---
+
+# Zadaní
+Pro elektrické vedení bylo uvažováno o kabelech od dvou výrobců,
+označených A a B. Při zkouškách v pevnosti tahu byly na 12 náhodně
+vybraných kabelech od každého výrobce naměřeny hodnoty (v MPa):
+A : 313 299 315 312 310 308 314 313 305 310 309 314
+B : 307 322 313 313 311 316 315 314 308 319 313 312
+Za předpokladu, že pevnost v tahu drátů má normální rozdělení,
+testujte rozdíly mezi výběrovými rozptyly a průměry drátů.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Definice základní pojmů
+
+Statistický znak x: pevnost (v MPa)
+
+Statistická jednotka: kabel výrobce A
+                      kabel výrobce B
+
+Základní soubor: všechny kabely výrobce A
+                 všechny kabely výrobce B
+
+Výběrový soubor: 12 náhodně vybraných kabelů výrobce A
+                 12 náhodně vybraných kabelů výrobce B
+
+# Zadaní hodnot
+
+```{r}
+x_A <- c(313, 299, 315, 312, 310, 308, 314, 313, 305, 310, 309, 314)
+x_B <- c(307, 322, 313, 313, 311, 316, 315, 314, 308, 319, 313, 312)
+```
+
+# Výpočet základnich číselných charakteristik A
+
+
+```{r}
+x_A_prumer <- mean(x_A)
+x_A_prumer
+```
+
+```{r}
+x_A_rozptyl <- var(x_A)
+x_A_rozptyl
+```
+
+```{r}
+x_A_smerodatna_odchylka <- sd(x_A)
+x_A_smerodatna_odchylka
+```
+
+```{r}
+x_A_median <- median(x_A)
+x_A_median
+```
+
+# Výpočet základnich číselných charakteristik B
+
+```{r}
+x_B_prumer <- mean(x_B)
+x_B_prumer
+```
+
+```{r}
+x_B_rozptyl <- var(x_B)
+x_B_rozptyl
+```
+
+```{r}
+x_B_smerodatna_odchylka <- sd(x_B)
+x_B_smerodatna_odchylka
+```
+
+```{r}
+x_B_median <- median(x_B)
+x_B_median
+```
+
+Průměr výběrového souboru kabelů výrobce A je 310.1667 MPa, průměr výběrového souboru kabelů výrobce B je 313.5833 MPa. 
+
+Rozptyl výběrového souboru kabelů výrobce A je 20.87879 MPa, rozptyl výběrového souboru kabelů výrobce B je 17.53788 MPa. 
+
+Smerodatná odchylka výběrového souboru kabelů výrobce A je 4.569331 MPa, smerodatná odchylka výběrového souboru kabelů výrobce B je 4.187825 MPa. 
+
+Medián výběrového souboru kabelů výrobce A je 311 MPa, medián výběrového souboru kabelů výrobce B je 313 MPa.
+
+
+# Ověření podmínky normality (sahpira-wilkův test)
+
+## Výrobce A
+    
+$H_0:$ Sledovaný znak X má normální rozdělení
+$H_1:$ Sledovaný znak X nemá normální rozdělení
+
+```{r}
+shapiro.test(x_A)
+```
+
+W je menší než 1, tedy existuje odchylka od normálního rozdělení. Významnost této odchylky posoudíme porovnáním p-hodnodty s vlastní hladinou významnosti.
+
+Volíme $\alpha = 0,05$. P-hodnota je větší než $\alpha$ ($0.06474 > 0.05 $), prijímáme $H_0$, což znamená, že sledovaný znak X má normální rozdělení.
+
+
+## Výrobce B
+
+$H_0:$ Sledovaný znak X má normální rozdělení
+$H_1:$ Sledovaný znak X nemá normální rozdělení
+
+```{r}
+shapiro.test(x_B)
+```
+W je menší než 1, tedy existuje odchylka od normálního rozdělení. Významnost této odchylky posoudíme porovnáním p-hodnodty s vlastní hladinou významnosti.
+
+Volíme $\alpha = 0,05$. P-hodnota je větší než $\alpha$ ($0.7893 > 0.05 $), prijímáme $H_0$, což znamená, že sledovaný znak X má normální rozdělení.
+
+## Ověření 
+
+```{r}
+plot(x_A, x_B)
+```
+    
+```{r}
+boxplot(x_A)
+boxplot(x_B)
+```
+
+Jeden z bodů leží mimo shluk bodů, což může znamenat odchylku od normálního rozdělení.
+Tento bod odebereme a znovu ověříme normalitu.
+
+```{r}
+x_A <- c(313, 315, 312, 310, 308, 314, 313, 305, 310, 309, 314)
+mean(x_A)
+var(x_A)
+sd(x_A)
+median(x_A)
+```
+
+```{r}
+x_B <- c(307, 313, 313, 311, 316, 315, 314, 308, 319, 313, 312)
+mean(x_B)
+var(x_B)
+sd(x_B)
+median(x_B)
+```
+
+
+# Porování rozptylů
+
+$H_0: \sigma_A^2 = \sigma_B^2$ (rozptyly jsou stejné)
+
+$H_1: \sigma_A^2 \neq \sigma_B^2$ (rozptyly nejsou stejné)
+
+```{r}
+var.test(x_A, x_B, alternative = "two.sided")
+```
+
+Volíme $\alpha = 0,05$. P-hodnota je větší než $\alpha$ ($0.7451 > 0.05 $), prijímáme $H_0$, což znamená, že rozptyly jsou stejné.
+
+
+# Porovnání pevnosti kabelů
+
+Budeme chtít zjistit, zda lze říct že pevnost kabelů výrobce A je menší než pevnost kabelů výrobce B.)
+
+$H_0: \mu_A \geq \mu_B$ pevnost kabelů výrobce A je stejná nebo větší než pevnost kabelů výrobce B
+
+$H_1: \mu_A < \mu_B$ pevnost kabelů výrobce A je menší než pevnost kabelů výrobce B
+
+```{r}
+t.test(x_A, x_B, alternative = "less", var.equal = TRUE)
+```
+
+Volíme $\alpha = 0,05$. P-hodnota je menší než $\alpha$ ($0.1247 < 0.05 $), zamítáme $H_0$, což znamená, že pevnost kabelů výrobce A je menší než pevnost kabelů výrobce B.

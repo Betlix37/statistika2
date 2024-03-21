@@ -1,0 +1,58 @@
+---
+title: "Příklad 15"
+author: "Vojtěch Benda"
+date: "7. 3. 2024"
+output: html_document
+---
+
+# Zadaní
+Realitní kancelář zaměstnává dva odhadce nemovitostí. Aby posoudila jejich schopnosti, nechala je odhadnout ceny osmi nemovitostí s následujícími výsledky (tisíce Kč):
+Odhadce A: 3282 2506 2812 5453 3263 4571 3121 2963
+Odhadce B: 3271 2531 2799 5471 3285 4557 3139 2976
+Pomocí testu rozhodněte, zda se tito odhadci ve svých odhadech statisticky významně liší.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Definice základní pojmů
+
+Statistický znak x: cena (tisíce Kč)
+
+Statistická jednotka: jedna nemovitost
+
+Základní soubor: všechny nemovitosti
+
+Výběrový soubor: 8 nemovitostí
+
+# Zadaní hodnot
+
+```{r}
+x_A <- c(3282, 2506, 2812, 5453, 3263, 4571, 3121, 2963)
+x_B <- c(3271, 2531, 2799, 5471, 3285, 4557, 3139, 2976)
+```
+
+Z charakteru příkladu jde o párová měření. Odhadci odhadují cenu stejných nemovitostí.
+
+```{r}
+plot(x_A, x_B)
+```
+
+
+Z rozložení kolem bodů (kolem přímky) je vidět, že mezi odhadovanýmmi cenami je existuje závislost. (odhadují stejnou nemovitost)
+
+# Odhady porovnánme pomocí t-testu
+
+## Formulace hypotézy
+
+$H_0: \mu_A = \mu_B$ (odhadci se ve svých odhadech neliší)
+
+$H_1: \mu_A \neq \mu_B$ (odhadci se ve svých odhadech liší)
+
+## Výpočet
+
+```{r}
+t.test(x_A, x_B, paired = TRUE, alternative = "two.sided")
+```
+
+Zvolíme hladinu významnosti $\alpha = 0.05$. P-hodnota je 0.2635 > 0.05, tedy potvrzujeme nulovou hypotézu. Nelze tedy tvrdit, že by se odhadci ve svých odhadech statisticky významně lišili.
