@@ -1,21 +1,18 @@
 ---
-title: "Příklad 2"
+title: "Příklad 1"
 author: "Vojtěch Benda"
 date: "21.3.2024"
 output: html_document
 ---
 
 # Zadaní
-Je potřeba porovnat úspěšnost absolventů tří typů středních škol
-(gymnázií, středních odborných škol - SOS a středních odborných učilišť zakončených maturitní zkouškou - SOU)
-u přijímacího testu studijních předpokladů na fakultě ekonomického zaměření. Dosažené bodové výsledky náhodně vybraných
-jednadvaceti uchazečů jsou uvedeny v tabulce.
+Jsou dány měsíční tržby (v tisících korunách) za dobu půl roku. Zjištěné tržby jsou uvedeny v tabulce.
 
-|   Typ školy      |  Dosažené body      |
-|:-----------------|----:|---:|----:|---:|---:|----:|---:|----:|---:|
-|Gymnázium         |45| 55| 57| 60| 61| 63| 55| 60| 48|
-|SOŠ         |48| 55| 61 |55| 63| 58 |52|
-|SOU       |53 |41| 50 |54| 52|
+|   Prodavač      |  Tržby v tis. Kč     |
+|:-----------------|----:|----:|----:|----:|----:|----:|----:|
+|1         |12 |10| 9| 10| 11|9|
+|2         |10 |12 |11 |12 |14 |13|
+|3       |19| 18 |16| 17| 16 |15|
 
 
 ```{r setup, include=FALSE}
@@ -24,21 +21,21 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Definice základní pojmů
 
-Statistický znak x: bodové hodnocení testu (kvantitativní znak)\
-                A: typ střední školy (kvalitativní znak, faktor)
+Statistický znak x: tržby  (kvantitativní znak)\
+                A: Prodavač (kvalitativní znak, faktor)
 
-Statistická jednotka: student G, student SOS, student SOU
+Statistická jednotka: měsíc 1. prodavače, měsíc 2. prodavače, měsíc 3. prodavače
 
-Základní soubor: všichni studenti G, SOS, SOU
+Základní soubor: Všechny měsíce jednotlivých prodavačů
 
-Výběrový soubor: 9 studentů G, 7 studentů SOS, 5 studentů SOU
+Výběrový soubor: 6 vybraných měsíců jednotlivých prodavačů
 
 
 # Zadaní hodnot
 
 ```{r}
-x <- c(45, 55, 57, 60, 61, 63, 55, 60, 48, 48, 55, 61, 55, 63, 58, 52, 53, 41, 50, 54, 52)
-faktor <- c(rep("G", 9), rep("SOS", 7), rep("SOU", 5))
+x <- c(12,10,9,10,11,9,10,12,11,12,14,13,19,18,16,17,16,15)
+faktor <- c(rep("1.prvni", 6), rep("2.druhy", 6), rep("3.treti", 6))
 ```
 
 ## Vstupní data
@@ -50,49 +47,49 @@ vstupdni_data
 
 ## Ověření podmínky normality (Shapiro-Wilkův test)
 
-### G
+### 1. prodavač
 
 $H_0:$ Sledovaný znak X má normální rozdělením
 
 $H_1:$ Sledovaný znka nemá normální rozdělení
 
 ```{r}
-shapiro.test(x[1:9])
+shapiro.test(x[1:6])
 ```
 
 Volíme $\alpha = 0,05$ a poronáme ji s p-hodnotou
 
-P-hodnota je 0,2595 je vetší než $\alpha$ $0,25>0,05$,
+P-hodnota je 0,4207 a je vetší než $\alpha$, $0,4207>0,05$,
 ponecháme tedy $H_0$ a sledovaný znak má normální rozdělení
 
-### SOS
+### 2. prodavač
 
 $H_0:$ Sledovaný znak X má normální rozdělením
 
 $H_1:$ Sledovaný znka nemá normální rozdělení
 
 ```{r}
-shapiro.test(x[10:16])
+shapiro.test(x[7:12])
 ```
 
 Volíme $\alpha = 0,05$ a poronáme ji s p-hodnotou
 
-P-hodnota je 0,9387 je vetší než $\alpha$ $0,9387>0,05$,
+P-hodnota je 0,96 a je vetší než $\alpha$, $0,96>0,05$,
 ponecháme tedy $H_0$ a sledovaný znak má normální rozdělení
 
-### SOU
+### 3. prodavač
 
 $H_0:$ Sledovaný znak X má normální rozdělením
 
 $H_1:$ Sledovaný znka nemá normální rozdělení
 
 ```{r}
-shapiro.test(x[17:21])
+shapiro.test(x[13:18])
 ```
 
 Volíme $\alpha = 0,05$ a poronáme ji s p-hodnotou
 
-P-hodnota je 0,07687 je vetší než $\alpha$ $0,07687>0,05$,
+P-hodnota je 0,8043 a je vetší než $\alpha$, $0,8043>0,05$,
 ponecháme tedy $H_0$ a sledovaný znak má normální rozdělení
 
 ## Závěr 
@@ -112,16 +109,16 @@ bartlett.test(x~faktor,vstupdni_data)
 ```
 Volíme $\alpha = 0,05$ a poronáme ji s p-hodnotou
 
-P-hodnota je 0,9058 je vetší než $\alpha$ $0,9058>0,05$,
+P-hodnota je 0,8757 je vetší než $\alpha$ $0,8757>0,05$,
 ponecháme tedy $H_0$ a sledovaný znak má stejný rozptylu
 
 # Porovnání bodových výsledku (ANOVA)
 
 ### Formulace hypotézy a výpočet
 
-$H_0:\mu_{G}=\mu_{SOS}=\mu_{SOU}$ (typ střední školy / faktor nemá vliv na bodové hodnocení)
+$H_0:\mu_{G}=\mu_{SOS}=\mu_{SOU}$ (prodavač / faktor nemá vliv na tržby)
 
-$H_1:\mu_{G}\neq\mu_{SOS}\neq\mu_{SOU}$ (typ střední školy / faktor má vliv na bodové hodnocení)
+$H_1:\mu_{G}\neq\mu_{SOS}\neq\mu_{SOU}$ (prodavač / faktor má vliv na tržby)
 
 ```{r}
 vysledek<-aov(x~faktor,vstupdni_data)
@@ -130,11 +127,23 @@ summary(vysledek)
 
 Volíme $\alpha = 0,05$ a poronáme ji s p-hodnotou
 
-P-hodnota je  0,141 je vetší než $\alpha$ $0,141>0,05$,
-ponecháme tedy $H_0$. Typ střední školy nemá vliv na bodové hodnocení.
+P-hodnota je  $1.22e^{-6} = 1.22 x 10^{-6} = 0,00000122$ je menší než $\alpha$ $0,00000122>0,05$,
+ponecháme tedy $H_1$. Prodavač má vliv na velikost tržeb
 
 ### Grafické znázornění
 
 ```{r}
 boxplot(x~faktor,vstupdni_data)
+```
+
+### Zjištění, který prodavač se odlišuje
+
+Protože máme stejné rozshahy výběru, použijeme Tukeyovu metodu
+
+Pro všechny testy máme 
+
+$H_0:$
+$H_1:$
+```{R}
+TukeyHSD(vysledek)
 ```
