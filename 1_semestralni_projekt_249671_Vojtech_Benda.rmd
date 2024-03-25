@@ -1,0 +1,168 @@
+---
+title: "Semestrální práce"
+author: "Vojtěch Benda"
+date: "25.3.2024"
+urlcolor: blue
+---
+
+```{r setup, include=FALSE} 
+knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
+```
+
+# Úvod
+V mé semestrální práci jsem se rozhodl využít párový t-test pro porovnání vstřelených gólů za celou sezónu
+mezi dvěma největšími španělskými fotbalovými kluby, FC Barcelona a Real Madrid.
+Data jsou od sezóny 2008/09 až po loňskou sezónu 2022/23. (Aktuální sezóna 2023/24 ještě není ukončena je odehráno 29 z 38 zápasů a tudíž by data byla zkreslená).
+Do dat jsou zahrnuty pouze golý ze zápasů La ligy a tedy nejsou zahrnuty goly z jiných soutěží(Copa del Rey, Copa de España, Liga Mistrů, Superpohár atd.).
+
+Data jsem čerpal ze stránky [footystats](https://footystats.org/spain/la-liga/goals-scored-table#), kde jsou přehledně zobrazeny.
+
+
+
+| Sezóna | Barcelona | Real Madrid |
+|:---|:---|:---|
+| 2008/09 | 105 | 83 |
+| 2009/10 | 98 | 102 |
+| 2010/11 | 95 | 102 |
+| 2011/12 | 114 | 121 |
+| 2012/13 | 115 | 103 |
+| 2013/14 | 100 | 104 |
+| 2014/15 | 110 | 118 |
+| 2015/16 | 112 | 110 |
+| 2016/17 | 116 | 106 |
+| 2017/18 | 99 | 94 |
+| 2018/19 | 90 | 63 |
+| 2019/20 | 86 | 70 |
+| 2020/21 | 85 | 67 |
+| 2021/22 | 68 | 80 |
+| 2022/23 | 70 | 75 |
+
+
+# Příprava dat
+
+
+## Zadaní hodnot
+```{r}
+barcelona <- c(105, 98, 95, 114, 115, 100, 110, 112, 116, 99, 90, 86, 85, 68, 70)
+real_madrid <- c(83, 102, 102, 121, 103, 104, 118, 110, 106, 94, 63, 70, 67, 80, 75)
+sezony<- c("2008/09","2009/10","2010/11","2011/12","2012/13","2013/14","2014/15",
+"2015/16","2016/17","2017/18","2018/19","2019/20","2020/21","2021/22","2022/23")
+```
+
+## Vizualizace dat vhodným grafem
+
+```{r}
+barplot(rbind(barcelona,real_madrid),col=c("blue","white"),beside=TRUE,
+legend.text=c("Barcelona","Real Madrid"),main="Počet vstřelených gólů za sezónu",
+xlab="Sezóna",ylab="Počet gólů",names.arg=sezony,ylim=c(0,140),cex.names=0.65,las=2)
+```
+
+# Definice základní pojmů
+
+Statistický znak x:\
+- Počet gólů vstřelených za sezónu
+
+Statistická jednotka: \
+- FC Barcelona\
+- Real Madrid
+
+Základní soubor:\
+- všechny sezóny špaňělské ligy 
+
+Výběrový soubor:\
+- 15 sezón španělské ligy (2008/09 - 2022/23)
+
+
+# Výpočet základnich číselných charakteristik
+
+## Barcelona
+
+### Průměr
+```{r}
+mean(barcelona)
+```
+### Medián
+```{r}
+median(barcelona)
+```
+### Rozptyl
+```{r}
+var(barcelona)
+```
+### Směrodatná odchylka
+```{r}
+sd(barcelona)
+```
+
+## Real Madrid
+
+### Průměr
+```{r}
+mean(real_madrid)
+```
+### Medián
+```{r}
+median(real_madrid)
+```
+### Rozptyl
+```{r}
+var(real_madrid)
+```
+### Směrodatná odchylka
+```{r}
+sd(real_madrid)
+```
+
+## Shrnutí
+
+| | Barcelona | Real Madrid |
+|:---|:---|:---|
+| Průměr | 97,53333 | 93,2 |
+| Medián | 99 | 102 |
+| Rozptyl | 237,8381 | 353,4571 |
+| Směrodatná odchylka | 15,422 |  18,80046 |
+
+    
+# Ověření podmínky normality (sahpira-wilkův test)
+
+$H_0:$ Sledovaný znak má normální rozdělení\
+$H_1:$ Sledovaný znak nemá normální rozdělení\
+$\alpha = 0,05$ hladina významnosti
+
+## Barcelona
+```{r}
+shapiro.test(barcelona)
+```
+
+P-hodnota je 0,2032 a tedy $P_{hodnota} > \alpha = 0,2032 > 0,05$ a ponecháváme nulovou hypotézu. Což znamená, že znak má normální rozdělení.
+
+
+## Real Madrid
+```{r}
+shapiro.test(real_madrid)
+```
+P-hodnota je 0,2867 a tedy $P_{hodnota} > \alpha = 0,2867 > 0,05$ a ponecháváme nulovou hypotézu. Což znamená, že znak má normální rozdělení.
+
+
+# Párový t-test
+
+$H_0: \mu_A = \mu_B$ (celkový průměrný počet gólů za sezónu je stejný pro oba týmy)\
+$H_1: \mu_A \neq \mu_B$ (celkový průměrný počet gólů za sezónu není stejný pro oba týmy)\
+$\alpha = 0,05$ hladina významnosti\
+kde:\
+$\mu_A$ je průměrný počet gólů za sezónu pro Barcelonu\
+$\mu_B$ je průměrný počet gólů za sezónu pro Real Madrid
+
+```{r}
+t.test(barcelona,real_madrid,paired=TRUE)
+```
+P-hodnota je 0,1968 a tedy $P_{hodnota} > \alpha = 0,1968 > 0,05$ a ponecháváme nulovou hypotézu. Což znamená, že průměrný počet gólů za sezónu je stejný pro oba týmy.
+
+# Závěr
+
+Na základě provedeného t-testu, p-hodnota je 0,1968, což je větší než standardní hladina významnosti $\alpha =0,05$. To znamená, že neexistuje dostatečný statistický důkaz pro zamítnutí nulové hypotézy.
+Nulová hypotéza, která předpokládá, že průměrný počet gólů vstřelených Barcelonou a Realem Madridem za sezónu je stejný.
+Jinými slovy, na základě dostupných dat a provedeného t-testu, nemůžeme tvrdit, že by existoval statisticky významný rozdíl v průměrném počtu gólů vstřelených těmito dvěma týmy za sezónu. 
+
+
+
