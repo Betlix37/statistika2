@@ -51,9 +51,9 @@ sezony<- c("2008/09","2009/10","2010/11","2011/12","2012/13","2013/14","2014/15"
 
 ```{r, echo=FALSE}
 barplot(rbind(barcelona,real_madrid),col=c("blue","white"),beside=TRUE,
-legend.text=c("Barcelona","Real Madrid"),
-xlab="Sezóna",,names.arg=sezony,ylim=c(0,140),cex.names=0.65,las=2)
+legend.text=c("Barcelona","Real Madrid"),,names.arg=sezony,ylim=c(0,140),cex.names=0.65,las=2)
 ```
+\newpage
 
 # Definice základní pojmů
 
